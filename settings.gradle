@@ -1,0 +1,11 @@
+pluginManagement {
+    repositories {
+        maven {
+            url 'https://nexus.gtnewhorizons.com/repository/public/'
+        }
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
+
+rootProject.name = 'VoiceChat'

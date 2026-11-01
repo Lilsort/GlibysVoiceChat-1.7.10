@@ -1,0 +1,43 @@
+plugins {
+    id 'com.gtnewhorizons.retrofuturagradle' version '2.0.3'
+    id 'java'
+}
+
+group = "net.gliby"
+version = "1.7.10-0.6.1"
+
+minecraft {
+    mcVersion = '1.7.10'
+    mcpMappingChannel = 'stable'
+    mcpMappingVersion = '12'
+}
+
+dependencies {
+    implementation files('lib/jspeex.jar')
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+tasks.named('compileJava', JavaCompile).configure {
+    options.encoding = 'UTF-8'
+}
+
+tasks.named('processResources', ProcessResources).configure {
+    inputs.property 'version', project.version
+    inputs.property 'mcversion', project.minecraft.mcVersion
+
+    filesMatching('mcmod.info') {
+        expand 'version': project.version, 'mcversion': project.minecraft.mcVersion.get()
+    }
+}
+
+tasks.named('jar', Jar).configure {
+    archiveBaseName.set('GlibysVC')
+    manifest {
+        attributes 'FMLAT': 'gvc_at.cfg'
+    }
+    from(zipTree(file('lib/jspeex.jar')))
+}
